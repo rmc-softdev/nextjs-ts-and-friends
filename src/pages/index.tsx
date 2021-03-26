@@ -1,48 +1,99 @@
-import { useQuery } from 'react-query'
-import styles from '../../styles/Home.module.css'
-import { handleFetchTrivia } from '../api/api'
-import { useRouter } from 'next/router'
-
-
+import { useState, useEffect } from "react";
+import styles from "../../styles/Home.module.css";
+import { useRouter } from "next/router";
 
 const Home = () => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const {data, error, isLoading} = useQuery('triviaInfo', handleFetchTrivia)
+  const [reqStatus, setReqstatus] = useState({
+    loading: false,
+    done: false,
+    error: false,
+    data: null,
+    message: "",
+  });
 
-  const renderFetchResp= () => {
+  useEffect(() => {
+    const handleFetch = async () => {
+      try {
+        setReqstatus((prevState) => {
+          return { ...prevState, loading: true };
+        });
+
+        const data = await (
+          await fetch(
+            "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean"
+          )
+        ).json();
+
+        setReqstatus((prevState) => {
+          return {
+            ...prevState,
+            loading: false,
+            data: data.results,
+            done: true,
+          };
+        });
+      } catch (error) {
+        setReqstatus((prevState) => {
+          return { ...prevState, loading: false };
+        });
+        setReqstatus((prevState) => {
+          //we'd typically align with the backend what's the error obj
+          return {
+            ...prevState,
+            error: true,
+            message: error.message,
+            done: true,
+          };
+        });
+      }
+    };
+
+    handleFetch();
+  }, []);
+
+  const { error, message, done, data, loading: isLoading } = reqStatus;
+
+  const renderFetchResp = () => {
     if (error) {
-      return <p> something went wrong </p>
+      return <p> this should be awesome error message, {message} </p>;
     }
-  
+
     if (isLoading) {
-      return <p> loading </p>
+      return <p> this could be an awesome loading spinner </p>;
     }
 
-    return <div> 
-      {data.map((el, index) => <div key={index} onClick={() => router.push(`/trivia/${index + 1}`)}> {el.category} </div>)}
-    </div>
-  }
+    if (done && !data) {
+      return <p> Invalid server response </p>;
+    }
 
+    return (
+      <div>
+        {Array.isArray(data) &&
+          data?.map((el, index) => <div key={index}> {el.category} </div>)}
+      </div>
+    );
+  };
 
   return (
     <>
-    <section className={styles.container}>
-     <h1>  Welcome to the Trivia Challenge </h1>
-     <h4> You may start the game at any moment by pressing start </h4>
-     <button onClick={() => {
-       router.push('/trivia/1')
-     }}> Start </button>
-    </section>
+      <section className={styles.container}>
+        <h1> Welcome to the Trivia Challenge </h1>
+        <h4> You may start the game at any moment by pressing start </h4>
+        <button
+          onClick={() => {
+            router.push("/trivia/1");
+          }}
+        >
+          {" "}
+          Start{" "}
+        </button>
+      </section>
 
-    <div> 
-     {renderFetchResp()}
-    </div>
-
+      <div>{renderFetchResp()}</div>
     </>
+  );
+};
 
-  )
-}
-
-
-export default Home
+export default Home;
