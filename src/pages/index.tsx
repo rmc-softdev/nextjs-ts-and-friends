@@ -2,14 +2,26 @@ import { useState, useEffect } from "react";
 import styles from "../../styles/Home.module.css";
 import { useRouter } from "next/router";
 
+interface trivia {
+  category: string;
+  question: string;
+}
+interface reqStatus {
+  data?: trivia[];
+  loading: boolean;
+  done: boolean;
+  error: boolean;
+  message: string;
+}
+
 const Home = () => {
   const router = useRouter();
 
-  const [reqStatus, setReqstatus] = useState({
+  const [reqStatus, setReqstatus] = useState<reqStatus>({
     loading: false,
     done: false,
     error: false,
-    data: null,
+    data: undefined,
     message: "",
   });
 

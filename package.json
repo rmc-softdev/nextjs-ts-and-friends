@@ -12,6 +12,9 @@
     "next": "10.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-redux": "^7.2.3",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "sass": "^1.32.8"
   },
   "devDependencies": {

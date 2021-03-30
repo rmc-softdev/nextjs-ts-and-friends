@@ -97,7 +97,7 @@ const Trivia = () => {
     }
 
     return (
-      <section className={styles.trivia}>
+      <section className={styles.triviContainer}>
         <div>
           {" "}
           <p>Category</p>
