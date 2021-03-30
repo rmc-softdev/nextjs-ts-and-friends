@@ -7,7 +7,7 @@ const App = ({ Component, pageProps }) => {
     <>
      <Provider store={store}>
          <Component {...pageProps} />  
-     </Provider>,
+     </Provider>
      
     </>
   );

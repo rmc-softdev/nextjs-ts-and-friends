@@ -1,99 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../../../styles/[id].module.scss";
+import { useSelector } from "react-redux";
+import { getCurrentQuestions } from "../../reducers/triviaReducer";
 
 interface trivia {
   category: string;
   question: string;
 }
-interface reqStatus {
-  data?: trivia[];
-  loading: boolean;
-  done: boolean;
-  error: boolean;
-  message: string;
-}
 
 const Trivia = () => {
   const router = useRouter();
   const triviaID = +router.query.id!;
-  const [reqStatus, setReqstatus] = useState<reqStatus>({
-    loading: false,
-    done: false,
-    error: false,
-    data: undefined,
-    message: "",
-  });
+  const [trivia, setTrivia] = useState<trivia>()
+  const [answer, setAnswer] = useState(false)
 
-  const { error, message, done, data, loading: isLoading } = reqStatus;
-
-  const [answer, setAnswer] = useState(false);
-  const [trivia, setTrivia] = useState({
-    category: "",
-    question: "",
-  });
-
+  const {triviaQuestions: { questions, loading, error}} = useSelector(getCurrentQuestions)
+  
   useEffect(() => {
-    const handleFetch = async () => {
-      try {
-        setReqstatus((prevState) => {
-          return { ...prevState, loading: true };
-        });
-
-        const data = await (
-          await fetch(
-            "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean"
-          )
-        ).json();
-
-        setReqstatus((prevState) => {
-          return {
-            ...prevState,
-            loading: false,
-            data: data.results,
-            done: true,
-          };
-        });
-      } catch (error) {
-        setReqstatus((prevState) => {
-          return { ...prevState, loading: false };
-        });
-        setReqstatus((prevState) => {
-          //we'd typically align with the backend what's the error obj
-          return {
-            ...prevState,
-            error: true,
-            message: error.message,
-            done: true,
-          };
-        });
-      }
-    };
-
-    handleFetch();
-  }, []);
-
-  useEffect(() => {
-    if (data && Object.keys(data).length !== 0) {
-      const trivia = data?.filter((_, index) => index + 1 === triviaID);
+    if (questions && Object.keys(questions).length !== 0) {
+      const trivia = questions?.filter((_, index) => index + 1 === triviaID);
 
       if (trivia?.length) {
         setTrivia(trivia[0]);
+      } else {
+        setTrivia(undefined)
       }
     }
-  }, [data, triviaID]);
+  }, [questions, triviaID]);
 
   const renderFetchResp = () => {
     if (error) {
-      return <p> this should be awesome error message, {message} </p>;
+      return <p className={styles.error}> this should be awesome error message, {error} </p>;
     }
 
-    if (isLoading) {
+    if (loading) {
       return <p> this could be an awesome loading spinner </p>;
     }
 
-    if (done && !trivia?.question) {
-      return <p> no such trivia was found</p>;
+    if (!loading && !questions) {
+      return <p> Something went wrong, please <span className={styles.error} onClick={() => {
+        router.push('/')
+      }}> try again </span> </p>;
+    }
+
+    if (!loading && !trivia) {
+    return <p>No question was found</p>
     }
 
     return (
@@ -120,11 +72,22 @@ const Trivia = () => {
             checked={answer}
           />
         </div>
+        <h4> Current answer: {answer? 'true' : 'false'} </h4>
       </section>
-    );
+    )
   };
 
-  return <div>{renderFetchResp()}</div>;
+  return (<>
+      <div>{renderFetchResp()}</div>
+      <div>
+        <button onClick={() => {
+        router.push(`/trivia/${triviaID - 1}`)
+      }} > go to the previous question</button>
+        <button onClick={() => {
+        router.push(`/trivia/${triviaID + 1}`)
+      }}> go to the next question</button>
+      </div>
+  </>);
 };
 
 export default Trivia;

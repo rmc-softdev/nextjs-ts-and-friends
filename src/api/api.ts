@@ -10,3 +10,4 @@ export const handleFetchTrivia = async () => {
   );
   return data.results;
 };
+
