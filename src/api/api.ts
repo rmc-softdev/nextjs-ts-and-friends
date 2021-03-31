@@ -5,9 +5,9 @@ export const api = (url: string, method = "get") => {
 };
 
 export const handleFetchTrivia = async () => {
-  const { data } = await api(
-    "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean"
-  );
+
+  //if we wanted, we could have hidden it into a non shippable env file, such as .env.local and so on so forth
+  const { data } = await api(process.env.NEXT_PUBLIC_API_BASE_URL!);
   return data.results;
 };
 

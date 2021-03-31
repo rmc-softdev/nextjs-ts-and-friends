@@ -33,10 +33,13 @@ const Home = () => {
 
     return (
       <div>
-        {Array.isArray(questions) ?
-          questions?.map((el, index) => <div  onClick={() => {
-            router.push(`trivia/${index + 1}`)
-          }} key={index}> {el.category} </div>) : <p> Invalid server response </p>}
+        
+        {questions?.length !== 0?
+          <div> 
+            <h4> You'll be facing {questions.length} questions on these topics, you may browse through them and edit them before submitting </h4>
+            {questions.map((el, index) => <div  key={index}> {el.category} </div>)}
+
+          </div> : <p> Invalid server response </p>}
       </div>
     );
   };
