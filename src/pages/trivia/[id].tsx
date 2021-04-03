@@ -34,9 +34,9 @@ const Trivia = () => {
 
 
   useEffect(() => {
-  answers.forEach(el => {
-    if (el.id === triviaID) {
-      setGivenAnswer(el.givenAnswer)
+  answers.forEach(answer => {
+    if (answer.id === triviaID) {
+      setGivenAnswer(answer.givenAnswer)
     }
   })
   }, [answers, triviaID])
@@ -47,11 +47,11 @@ const Trivia = () => {
     }
 
     if (loading) {
-      return <p> this could be an awesome loading spinner </p>;
+      return <p className={styles.centered}> this could be an awesome loading spinner </p>;
     }
 
     if (!loading && !questions) {
-      return <p> Something went wrong, please <span className={styles.error} onClick={() => {
+      return <p> Can't find your answer now, please <span className={styles.error} onClick={() => {
         router.push('/')
       }}> try again from the start. </span> </p>;
     }
@@ -64,13 +64,13 @@ const Trivia = () => {
 
 
     return (
-      <section className={styles.triviContainer}>
+      <section className={styles.triviaContainer}>
         <div>
-          <p>Category</p>
+          <strong>Category</strong>
           <p> {trivia?.category} </p>
         </div>
         <div>
-          <p> Question</p>
+          <strong> Question</strong>
           <p> {trivia?.question} </p>
         </div>
         <div>

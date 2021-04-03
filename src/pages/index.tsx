@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import styles from "../../styles/Home.module.css";
+import styles from "../../styles/Home.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentQuestions, getQuestions } from "../reducers/triviaReducer";
-import { triviaQuestions } from '../types/trivia'
 
 const Home = () => {
   const router = useRouter();
@@ -23,7 +22,7 @@ const Home = () => {
     }
 
     if (loading) {
-      return <p> this could be an awesome loading spinner </p>;
+      return <p className={styles.centered}> this could be an awesome loading spinner </p>;
     }
 
     if (!loading && !questions) {
@@ -34,9 +33,9 @@ const Home = () => {
       <div>
         
         {questions?.length !== 0?
-          <div> 
+          <div className={styles.main}> 
             <h4> You'll be facing {questions.length} questions on these topics, you may browse through them and edit them before submitting </h4>
-            {questions.map((el, index) => <div  key={index}> {el.category} </div>)}
+            {questions.map((question, index) => <div  key={index}> {question.category} </div>)}
 
           </div> : <p> Invalid server response </p>}
       </div>

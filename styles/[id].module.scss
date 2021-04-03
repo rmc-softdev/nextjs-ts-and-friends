@@ -1,9 +1,17 @@
 .triviaContainer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 
 .error {
     color: red;
+    cursor: pointer;
+}
+
+
+.centered {
+    margin: 0 auto;
+    width: 100vw;
 }
