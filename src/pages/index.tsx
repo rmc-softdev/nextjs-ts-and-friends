@@ -15,7 +15,6 @@ const Home = () => {
     dispatch(getQuestions())
   }, [])
 
-
   const renderFetchResp = () => {
     if (error) {
       return <p> this should be awesome error message, {error} </p>;

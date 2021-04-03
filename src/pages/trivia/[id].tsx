@@ -78,6 +78,7 @@ const Trivia = () => {
             Mark correct for true or leave it blank for false
           </label>
 
+
           <input
             type="checkbox"
             id="trivia__answer"
