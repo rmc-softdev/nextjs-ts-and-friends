@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCurrentQuestions } from "../../reducers/triviaReducer";
 import { getGivenAnswers, setStoredAnswer } from "../../reducers/userFeedReducer";
 import {trivia} from '../../types/trivia'
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 
 const Trivia = () => {
@@ -43,11 +44,11 @@ const Trivia = () => {
 
   const renderFetchResp = () => {
     if (error) {
-      return <p className={styles.error}> this should be awesome error message, {error} </p>;
+      return <p className={styles.error}> this should be an awesome error message, {error} </p>;
     }
 
     if (loading) {
-      return <p className={styles.centered}> this could be an awesome loading spinner </p>;
+      return  <LoadingSpinner />
     }
 
     if (!loading && !questions) {

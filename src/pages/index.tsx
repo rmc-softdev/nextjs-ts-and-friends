@@ -3,6 +3,7 @@ import styles from "../../styles/Home.module.scss";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentQuestions, getQuestions } from "../reducers/triviaReducer";
+import LoadingSpinner from '../components/LoadingSpinner'
 
 const Home = () => {
   const router = useRouter();
@@ -17,11 +18,11 @@ const Home = () => {
 
   const renderFetchResp = () => {
     if (error) {
-      return <p> this should be awesome error message, {error} </p>;
+      return <p> this should be an awesome error message, {error} </p>;
     }
 
     if (loading) {
-      return <p className={styles.centered}> this could be an awesome loading spinner </p>;
+      return <LoadingSpinner />
     }
 
     if (!loading && !questions) {

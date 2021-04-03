@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import QuestionCard from "../../components/QuestionCard";
 import { getGivenAnswers } from '../../reducers/userFeedReducer'
 
 const results = () => {
@@ -32,11 +33,9 @@ const results = () => {
         <p> These are the results</p>
         <ul>
           {answers.map((answer) => (
-          <li key={answer.id}> 
-            <span> Your answer to the question nª: {answer.id} was {answer.givenAnswer ? <strong> True </strong> : <strong> False </strong> }</span>
-            <p>Question: {answer.trivia.question}</p>         
-            <p> The correct answer is {answer.correctAnswer ? 'True' : 'False'} </p>     
-          </li>))}
+              <QuestionCard answer={answer} />
+         
+         ))}
         </ul>
         <div> 
             Ready to play again?
