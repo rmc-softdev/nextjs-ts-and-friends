@@ -1,14 +1,6 @@
 import { handleFetchTrivia } from './../api/api';
+import { triviaQuestions } from '../types/trivia'
 
-interface trivia {
-  category: string;
-  question: string;
-}
-interface triviaQuestions {
-  questions?: trivia[];
-  loading: boolean;
-  error: boolean;
-}
 
 const initialState: {
   triviaQuestions: triviaQuestions

@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "../../styles/Home.module.css";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentQuestions, getQuestions } from "../reducers/triviaReducer";
-
-
+import { triviaQuestions } from '../types/trivia'
 
 const Home = () => {
   const router = useRouter();

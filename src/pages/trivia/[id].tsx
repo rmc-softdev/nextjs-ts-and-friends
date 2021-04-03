@@ -4,21 +4,17 @@ import styles from "../../../styles/[id].module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentQuestions } from "../../reducers/triviaReducer";
 import { getGivenAnswers, setStoredAnswer } from "../../reducers/userFeedReducer";
+import {trivia} from '../../types/trivia'
 
-interface trivia {
-  category: string;
-  question: string;
-  correct_answer: string
-}
 
 const Trivia = () => {
   const router = useRouter();
   const triviaID = +router.query.id!;
   const [trivia, setTrivia] = useState<trivia>()
-  const [givenAnswer, setGivenAnswer] = useState(false)
-
   const {triviaQuestions: { questions, loading, error}} = useSelector(getCurrentQuestions)
   const { answers } = useSelector(getGivenAnswers)
+  const [givenAnswer, setGivenAnswer] = useState(false)
+
 
 
   const dispatch = useDispatch()
@@ -38,9 +34,12 @@ const Trivia = () => {
 
 
   useEffect(() => {
-    const currentAnswer = answers.filter(el => el.id === triviaID)
-    console.log(currentAnswer[0])
-  }, [answers])
+  answers.forEach(el => {
+    if (el.id === triviaID) {
+      setGivenAnswer(el.givenAnswer)
+    }
+  })
+  }, [answers, triviaID])
 
   const renderFetchResp = () => {
     if (error) {
@@ -57,25 +56,7 @@ const Trivia = () => {
       }}> try again from the start. </span> </p>;
     }
 
-    if (triviaID > questions.length) {
-      return (
-        <>
-          <p> Are you ready to submit your answer? </p>
-          <p> These are you answers</p>
-          <ul>
-            {answers.map((answer) => (
-            <li key={answer.id}> 
-              <span> Your answer to the question nª: {answer.id} was {answer.givenAnswer ? <strong> True </strong> : <strong> False </strong> }</span>
-              <p>Question: {answer.trivia.question}</p>              
-            </li>))}
-          </ul>
-          <button onClick={() => {
-            //routes to a congratulations, score bording showing and play again page
-          }}> Submit </button>
-        </>
-
-      )
-    }
+    
 
     if (!loading && !trivia) {
     return <p>No such question was found</p>
@@ -129,9 +110,14 @@ const Trivia = () => {
               trivia
             }))
         }
+
+        if (triviaID === questions.length) {
+          return router.push('/trivia/results')
+        } 
+
         return router.push(`/trivia/${triviaID + 1}`)
       }}> 
-        {triviaID === questions?.length ? <strong> See your answers and submit </strong> : 'save answer and go to the next question'}
+        {triviaID === questions?.length ? <strong className={styles.error}> Submit answers </strong> : 'save answer and go to the next question'}
       </button>
       </div>
       </section>

@@ -1,8 +1,5 @@
 
 Quarta-feira:
-1. ajeitar reducer pra filtrar resposta pra não haver repetição de escolha
-2.0 https://www.youtube.com/watch?v=EJVGzyWSCBE&t=1s
-considere usar getDynamicPath
 3. Coloque uma "There is no more questions, these are your answers, do you want to submit them or edit them"?
 4. Colocar uma results screen (aproveitando o these are)
 5. esconder os botões enqnt tiver estado de loading e tal
