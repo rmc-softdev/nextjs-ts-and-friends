@@ -34,7 +34,7 @@ const Home = () => {
         
         {questions?.length !== 0?
           <div className={styles.main}> 
-            <h4> You'll be facing {questions.length} questions on these topics, you may browse through them and edit them before submitting </h4>
+            <h4> You'll be facing {questions.length} true/false questions on these topics, you may browse through them and edit them before submitting </h4>
             {questions.map((question, index) => <div  key={index}> {question.category} </div>)}
 
           </div> : <p> Invalid server response </p>}

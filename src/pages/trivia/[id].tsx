@@ -66,17 +66,17 @@ const Trivia = () => {
 
     return (
       <section className={styles.triviaContainer}>
-        <div>
+        <div className={styles.txtAlign}>
           <strong>Category</strong>
           <p> {trivia?.category} </p>
         </div>
-        <div>
+        <div className={styles.txtAlign}>
           <strong> Question</strong>
           <p> {trivia?.question} </p>
         </div>
         <div>
           <label htmlFor="trivia__answer">
-            Mark correct for true or leave it blank for false
+            Select your answer
           </label>
 
 
@@ -102,7 +102,7 @@ const Trivia = () => {
           }))
       }
       return router.push(`/trivia/${triviaID - 1}`)
-      }} > save answer and go to the previous question</button>}
+      }} > Save answer and go to the previous question</button>}
         <button onClick={() => {
           if (triviaID <= questions?.length) {
             dispatch(setStoredAnswer({
@@ -119,7 +119,7 @@ const Trivia = () => {
 
         return router.push(`/trivia/${triviaID + 1}`)
       }}> 
-        {triviaID === questions?.length ? <strong className={styles.error}> Submit answers </strong> : 'save answer and go to the next question'}
+        {triviaID === questions?.length ? <strong className={styles.error}> Submit answers </strong> : 'Save answer and go to the next question'}
       </button>
       </div>
       </section>
