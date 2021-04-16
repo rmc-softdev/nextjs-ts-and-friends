@@ -2,7 +2,7 @@ import React from 'react'
 
 const LoadingSpinner = () => {
     return (
-        <p> this could be an awesome loading spinner </p>
+        <p> This could be an awesome loading spinner </p>
     )
 }
 
