@@ -1,6 +1,8 @@
 ## How to run it locally:
 
-First, run the development server:
+Clone it and run yarn install.
+
+Secondly, run the development server:
 
 ```bash
 npm run dev
